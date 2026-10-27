@@ -1,0 +1,59 @@
+# GPU Sentinel controller configuration.
+# Every key can be overridden with SENTINEL_<SECTION>__<KEY>=value or --set section.key=value.
+
+api_host = "127.0.0.1"
+api_port = 8090
+log_level = "INFO"
+log_format = "text"
+data_dir = "data"
+incident_log = "incidents.jsonl"
+
+[probe]
+interval_s = 1.0
+timeout_s = 1.0
+unhealthy_threshold = 3     # consecutive failed probes before recovery starts
+healthy_threshold = 2       # consecutive passes before a restarted worker takes traffic
+startup_grace_s = 15.0
+startup_interval_s = 0.2    # probe faster while a worker is booting
+passive_checks = true       # gateway-observed connection errors count as failures
+
+[limits]
+rss_mb = 1536.0
+# gpu_mem_mb = 6000.0
+leak_slope_mb_per_min = 60.0
+leak_window_s = 45.0
+leak_min_samples = 10
+
+[latency]
+window_s = 15.0
+min_samples = 20
+p95_abs_ms = 400.0
+p95_fleet_ratio = 3.0
+degraded_consecutive = 3
+recycle_degraded_after_s = 15.0
+stuck_request_s = 8.0
+
+[recovery]
+backoff_base_s = 0.5
+backoff_cap_s = 30.0
+jitter = "full"
+max_restarts = 5
+restart_window_s = 300.0
+drain_grace_s = 2.0
+term_grace_s = 3.0
+stable_reset_s = 60.0
+
+[gateway]
+host = "127.0.0.1"
+port = 8080
+max_retries = 2
+request_timeout_s = 5.0
+route_to_degraded = false
+strategy = "least_inflight"
+
+[workers]
+count = 3
+base_port = 9001
+backend = "subprocess"      # subprocess | docker
+engine = "cpu"              # cpu | torch
+concurrency = 4
