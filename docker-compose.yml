@@ -1,0 +1,54 @@
+# docker compose up --build
+# Gateway: http://localhost:8080/infer   Dashboard/API: http://localhost:8090/
+#
+# The controller restarts crashed/wedged worker containers through the docker socket
+# (same pattern as autoheal / watchtower). Workers deliberately have restart: "no" so
+# that recovery is Sentinel's decision, with backoff and a budget, not the daemon's.
+
+x-worker: &worker
+  build:
+    context: .
+    dockerfile: docker/Dockerfile
+  image: gpu-sentinel:local
+  restart: "no"
+  environment:
+    HEALTH_PORT: "9001"
+  networks: [sentinel]
+
+services:
+  worker-1:
+    <<: *worker
+    container_name: sentinel-w1
+    command: ["worker", "--id", "w1", "--port", "9001", "--host", "0.0.0.0", "--engine", "cpu", "--concurrency", "4", "--log-format", "json"]
+  worker-2:
+    <<: *worker
+    container_name: sentinel-w2
+    command: ["worker", "--id", "w2", "--port", "9001", "--host", "0.0.0.0", "--engine", "cpu", "--concurrency", "4", "--log-format", "json"]
+  worker-3:
+    <<: *worker
+    container_name: sentinel-w3
+    command: ["worker", "--id", "w3", "--port", "9001", "--host", "0.0.0.0", "--engine", "cpu", "--concurrency", "4", "--log-format", "json"]
+
+  controller:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: gpu-sentinel:local
+    container_name: sentinel-controller
+    command: ["controller", "--config", "config/sentinel.docker.toml", "--log-format", "json"]
+    environment:
+      HEALTH_PORT: "8090"
+    ports:
+      - "8080:8080"
+      - "8090:8090"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - sentinel-data:/app/data
+    depends_on: [worker-1, worker-2, worker-3]
+    networks: [sentinel]
+
+networks:
+  sentinel: {}
+
+volumes:
+  sentinel-data: {}

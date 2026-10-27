@@ -1,0 +1,63 @@
+# Controller config for docker compose: workers are sibling containers reached by
+# service name; recovery goes through the docker CLI (docker start / stop / kill).
+
+api_host = "0.0.0.0"
+api_port = 8090
+log_level = "INFO"
+log_format = "json"
+data_dir = "/app/data"
+
+[probe]
+interval_s = 1.0
+timeout_s = 1.0
+unhealthy_threshold = 3
+healthy_threshold = 2
+startup_grace_s = 30.0
+startup_interval_s = 0.25
+
+[limits]
+rss_mb = 1536.0
+leak_slope_mb_per_min = 60.0
+leak_window_s = 45.0
+
+[latency]
+p95_abs_ms = 400.0
+p95_fleet_ratio = 3.0
+recycle_degraded_after_s = 15.0
+
+[recovery]
+backoff_base_s = 0.5
+backoff_cap_s = 30.0
+max_restarts = 5
+restart_window_s = 300.0
+drain_grace_s = 2.0
+term_grace_s = 3.0
+
+[gateway]
+host = "0.0.0.0"
+port = 8080
+max_retries = 2
+request_timeout_s = 5.0
+
+[workers]
+backend = "docker"
+engine = "cpu"
+concurrency = 4
+
+[[workers.specs]]
+id = "w1"
+host = "sentinel-w1"
+port = 9001
+container = "sentinel-w1"
+
+[[workers.specs]]
+id = "w2"
+host = "sentinel-w2"
+port = 9001
+container = "sentinel-w2"
+
+[[workers.specs]]
+id = "w3"
+host = "sentinel-w3"
+port = 9001
+container = "sentinel-w3"
