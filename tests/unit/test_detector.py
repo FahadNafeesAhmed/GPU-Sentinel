@@ -138,6 +138,40 @@ def test_leak_detector_fires_on_sustained_growth_only():
     assert v.detail["slope_mb_per_min"] == pytest.approx(600.0)
 
 
+def test_leak_detector_ignores_a_step_then_plateau():
+    """The CUDA caching allocator reserves its pool in one step after start-up: a step
+    followed by a flat line has a positive full-window slope but is not a leak."""
+    clk = FakeClock()
+    limits = ResourceLimits(leak_slope_mb_per_min=60.0, leak_window_s=10.0, leak_min_samples=5)
+    det = LeakDetector(limits, clk)
+    for i in range(10):
+        clk.t = float(i)
+        det.record("w1", 100.0, 54.0 if i < 3 else 202.0, uptime_s=999.0)
+    v = det.evaluate("w1")
+    assert v.severity == Severity.OK, v
+    # ...whereas steady growth over the same window still fires.
+    for i in range(10, 20):
+        clk.t = float(i)
+        det.record("w1", 100.0, 202.0 + 20.0 * (i - 9), uptime_s=999.0)
+    v = det.evaluate("w1")
+    assert v.reason == "gpu_leak_trend" and v.detail["recent_slope_mb_per_min"] > 30.0
+
+
+def test_leak_detector_skips_warmup_samples():
+    clk = FakeClock()
+    limits = ResourceLimits(leak_slope_mb_per_min=60.0, leak_window_s=10.0, leak_min_samples=5,
+                            leak_warmup_s=30.0)
+    det = LeakDetector(limits, clk)
+    for i in range(10):
+        clk.t = float(i)
+        det.record("w1", 100.0 + 50.0 * i, None, uptime_s=float(i))  # young worker
+    assert det.evaluate("w1").severity == Severity.OK and len(det.rss.get("w1", [])) == 0
+    for i in range(10, 20):
+        clk.t = float(i)
+        det.record("w1", 100.0 + 50.0 * i, None, uptime_s=30.0 + i)  # past warm-up
+    assert det.evaluate("w1").reason == "rss_leak_trend"
+
+
 def test_leak_detector_needs_window_coverage():
     clk = FakeClock()
     limits = ResourceLimits(leak_slope_mb_per_min=60.0, leak_window_s=60.0, leak_min_samples=5)

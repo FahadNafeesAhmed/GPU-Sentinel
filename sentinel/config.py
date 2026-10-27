@@ -38,6 +38,7 @@ class ResourceLimits:
     leak_slope_mb_per_min: float | None = 60.0
     leak_window_s: float = 45.0
     leak_min_samples: int = 10
+    leak_warmup_s: float = 60.0  # ignore memory growth this soon after a (re)start
 
 
 @dataclass

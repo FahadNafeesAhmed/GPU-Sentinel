@@ -52,7 +52,7 @@ def fast_config(tmp_path, workers: int = 3, **overrides: Any) -> SentinelConfig:
         probe=ProbeConfig(interval_s=0.25, timeout_s=0.5, unhealthy_threshold=3,
                           healthy_threshold=2, startup_grace_s=10.0, startup_interval_s=0.1),
         limits=ResourceLimits(rss_mb=1536.0, leak_slope_mb_per_min=60.0, leak_window_s=3.0,
-                              leak_min_samples=6),
+                              leak_min_samples=6, leak_warmup_s=0.0),
         latency=LatencyPolicy(window_s=5.0, min_samples=10, p95_abs_ms=150.0,
                               p95_fleet_ratio=3.0, degraded_consecutive=2,
                               recycle_degraded_after_s=1.5, stuck_request_s=3.0),

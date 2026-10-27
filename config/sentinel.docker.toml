@@ -19,6 +19,7 @@ startup_interval_s = 0.25
 rss_mb = 1536.0
 leak_slope_mb_per_min = 60.0
 leak_window_s = 45.0
+leak_warmup_s = 60.0
 
 [latency]
 p95_abs_ms = 400.0

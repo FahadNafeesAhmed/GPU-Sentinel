@@ -252,7 +252,8 @@ class Supervisor:
                 verdicts.append(resource_verdict(self.cfg.limits, res.status))
                 rss = res.status.get("rss_mb")
                 gpu_mb = (res.status.get("gpu") or {}).get("proc_mem_mb")
-                self.leaks.record(mw.id, rss, gpu_mb)
+                uptime = time.time() - mw.started_at if mw.started_at else None
+                self.leaks.record(mw.id, rss, gpu_mb, uptime_s=uptime)
                 verdicts.append(self.leaks.evaluate(mw.id))
                 if isinstance(rss, int | float):
                     self.m_rss.labels(worker=mw.id).set(rss)

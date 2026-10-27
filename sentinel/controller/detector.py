@@ -5,6 +5,11 @@ FleetLatencyDetector  flags a worker whose p95 latency is high *relative to its
                       and above an absolute floor.
 LeakDetector          least-squares slope of RSS / GPU memory over a window; fires
                       before a hard limit is hit so the restart happens off-peak.
+                      Two guards keep allocator behaviour from looking like a leak:
+                      samples from a worker's warm-up period are ignored, and growth
+                      must be *sustained* (the most recent half of the window must
+                      still be rising), so a one-time step such as the CUDA caching
+                      allocator reserving its pool does not count.
 """
 
 from __future__ import annotations
@@ -140,13 +145,19 @@ class TrendWindow:
     def span_s(self) -> float:
         return self._pts[-1][0] - self._pts[0][0] if len(self._pts) >= 2 else 0.0
 
-    def slope_per_min(self) -> float:
-        n = len(self._pts)
+    def slope_per_min(self, last_fraction: float = 1.0) -> float:
+        """Least-squares slope in value/minute; ``last_fraction`` < 1 restricts the fit
+        to the most recent part of the window (by time)."""
+        pts = list(self._pts)
+        if last_fraction < 1.0 and len(pts) >= 4:
+            cutoff = pts[-1][0] - (pts[-1][0] - pts[0][0]) * last_fraction
+            pts = [p for p in pts if p[0] >= cutoff]
+        n = len(pts)
         if n < 2:
             return 0.0
-        t0 = self._pts[0][0]
-        xs = [t - t0 for t, _ in self._pts]
-        ys = [v for _, v in self._pts]
+        t0 = pts[0][0]
+        xs = [t - t0 for t, _ in pts]
+        ys = [v for _, v in pts]
         mx = sum(xs) / n
         my = sum(ys) / n
         sxx = sum((x - mx) ** 2 for x in xs)
@@ -172,7 +183,15 @@ class LeakDetector:
             w = store[wid] = TrendWindow(self.limits.leak_window_s, self.clock)
         return w
 
-    def record(self, worker_id: str, rss_mb: float | None, gpu_mb: float | None) -> None:
+    def record(
+        self,
+        worker_id: str,
+        rss_mb: float | None,
+        gpu_mb: float | None,
+        uptime_s: float | None = None,
+    ) -> None:
+        if uptime_s is not None and uptime_s < self.limits.leak_warmup_s:
+            return  # model load / allocator warm-up: growth here is expected
         if rss_mb is not None:
             self._win(self.rss, worker_id).add(rss_mb)
         if gpu_mb is not None:
@@ -193,11 +212,13 @@ class LeakDetector:
             if w.span_s() < 0.8 * self.limits.leak_window_s:
                 continue
             slope = w.slope_per_min()
-            if slope > thr:
+            recent = w.slope_per_min(last_fraction=0.5)
+            if slope > thr and recent > thr * 0.5:
                 return Verdict.fatal(
                     f"{kind}_leak_trend", "resource",
-                    slope_mb_per_min=round(slope, 1), threshold_mb_per_min=thr,
-                    current_mb=round(w.last() or 0.0, 1), window_s=round(w.span_s(), 1),
+                    slope_mb_per_min=round(slope, 1), recent_slope_mb_per_min=round(recent, 1),
+                    threshold_mb_per_min=thr, current_mb=round(w.last() or 0.0, 1),
+                    window_s=round(w.span_s(), 1),
                 )
         return Verdict.ok("resource")
 
