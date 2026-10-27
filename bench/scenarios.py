@@ -190,7 +190,10 @@ async def oom(ctx: BenchContext, wid: str = "w1") -> dict[str, Any]:
     which inference fails with 500s and passive checks recycle the worker."""
     async def inject() -> float:
         if ctx.cfg.workers.engine == "torch":
-            cap = 65536.0  # allocate until CUDA actually reports OOM
+            # stay just past the configured GPU limit so neighbours on the same device
+            # are not starved; with no limit, allocate until CUDA reports OOM
+            lim = ctx.cfg.limits.gpu_mem_mb
+            cap = (lim + 512.0) if lim else 65536.0
         else:
             cap = (ctx.cfg.limits.rss_mb or 1536.0) + 512.0  # just past the RSS limit
         return await ctx.chaos(wid, "oom", max_mb=cap, step_mb=128)

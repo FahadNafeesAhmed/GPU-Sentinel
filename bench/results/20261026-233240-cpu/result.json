@@ -1,0 +1,2861 @@
+{
+  "run_id": "20261026-233240-cpu",
+  "engine": "cpu",
+  "rps": 100.0,
+  "tokens": 16,
+  "repeats": 5,
+  "system": {
+    "platform": "Windows-10-10.0.26300-SP0",
+    "cpu": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 32,
+    "python": "3.11.9",
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU, 8151 MiB, 596.13",
+    "sentinel": "0.1.0"
+  },
+  "config": {
+    "api_host": "127.0.0.1",
+    "api_port": 8090,
+    "log_level": "WARNING",
+    "log_format": "text",
+    "data_dir": "bench\\results\\20261026-233240-cpu\\data",
+    "incident_log": "incidents.jsonl",
+    "probe": {
+      "interval_s": 1.0,
+      "timeout_s": 1.0,
+      "unhealthy_threshold": 3,
+      "healthy_threshold": 2,
+      "startup_grace_s": 15.0,
+      "startup_interval_s": 0.2,
+      "passive_checks": true
+    },
+    "limits": {
+      "rss_mb": 1536.0,
+      "gpu_mem_mb": null,
+      "leak_slope_mb_per_min": 60.0,
+      "leak_window_s": 45.0,
+      "leak_min_samples": 10
+    },
+    "latency": {
+      "window_s": 15.0,
+      "min_samples": 20,
+      "p95_abs_ms": 400.0,
+      "p95_fleet_ratio": 3.0,
+      "degraded_consecutive": 3,
+      "recycle_degraded_after_s": 15.0,
+      "stuck_request_s": 8.0
+    },
+    "recovery": {
+      "backoff_base_s": 0.5,
+      "backoff_cap_s": 30.0,
+      "jitter": "full",
+      "max_restarts": 5,
+      "restart_window_s": 300.0,
+      "drain_grace_s": 2.0,
+      "term_grace_s": 3.0,
+      "stable_reset_s": 60.0
+    },
+    "gateway": {
+      "host": "127.0.0.1",
+      "port": 8080,
+      "max_retries": 2,
+      "request_timeout_s": 5.0,
+      "route_to_degraded": false,
+      "strategy": "least_inflight"
+    },
+    "workers": {
+      "count": 3,
+      "base_port": 9001,
+      "backend": "subprocess",
+      "engine": "cpu",
+      "concurrency": 4,
+      "specs": []
+    }
+  },
+  "faults": {
+    "crash_sigkill": [
+      {
+        "scenario": "crash_sigkill",
+        "worker": "w2",
+        "t_fault": 1793071971.2289526,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 9.92,
+          "p95_ms": 27.79,
+          "p99_ms": 96.97,
+          "max_ms": 195.44,
+          "mean_ms": 13.26
+        },
+        "achieved_rps": 99.9,
+        "incident": "70d364d13d",
+        "reason": "process_exited",
+        "source": "process",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "already_dead"
+        ],
+        "detect_ms": 25.0,
+        "recover_ms": 1482.4,
+        "first_reaction_ms": 11.0,
+        "symptom_to_detect_ms": 13.6,
+        "detect_to_recover_ms": 1457.4,
+        "fault_window": {
+          "n": 152,
+          "ok": 152,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 152
+          },
+          "p50_ms": 9.21,
+          "p95_ms": 20.83,
+          "p99_ms": 48.9,
+          "max_ms": 49.19,
+          "mean_ms": 10.98,
+          "window_s": 1.482
+        },
+        "pre_fault": {
+          "n": 501,
+          "ok": 501,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 501
+          },
+          "p50_ms": 9.96,
+          "p95_ms": 33.13,
+          "p99_ms": 59.32,
+          "max_ms": 67.56,
+          "mean_ms": 12.81
+        },
+        "post_recovery": {
+          "n": 1850,
+          "ok": 1850,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1850
+          },
+          "p50_ms": 9.97,
+          "p95_ms": 27.79,
+          "p99_ms": 102.02,
+          "max_ms": 195.44,
+          "mean_ms": 13.58
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "crash_sigkill",
+        "worker": "w2",
+        "t_fault": 1793071997.2590864,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 9.61,
+          "p95_ms": 21.08,
+          "p99_ms": 47.95,
+          "max_ms": 87.16,
+          "mean_ms": 11.51
+        },
+        "achieved_rps": 100.0,
+        "incident": "4fd859ac3f",
+        "reason": "process_exited",
+        "source": "process",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "already_dead"
+        ],
+        "detect_ms": 24.6,
+        "recover_ms": 1747.3,
+        "first_reaction_ms": 10.9,
+        "symptom_to_detect_ms": 13.5,
+        "detect_to_recover_ms": 1722.7,
+        "fault_window": {
+          "n": 178,
+          "ok": 178,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 178
+          },
+          "p50_ms": 9.46,
+          "p95_ms": 56.7,
+          "p99_ms": 83.81,
+          "max_ms": 87.16,
+          "mean_ms": 14.24,
+          "window_s": 1.747
+        },
+        "pre_fault": {
+          "n": 498,
+          "ok": 498,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 498
+          },
+          "p50_ms": 9.41,
+          "p95_ms": 18.21,
+          "p99_ms": 43.46,
+          "max_ms": 47.08,
+          "mean_ms": 10.71
+        },
+        "post_recovery": {
+          "n": 1826,
+          "ok": 1826,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1826
+          },
+          "p50_ms": 9.7,
+          "p95_ms": 21.38,
+          "p99_ms": 47.36,
+          "max_ms": 55.08,
+          "mean_ms": 11.46
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "crash_sigkill",
+        "worker": "w2",
+        "t_fault": 1793072023.3143857,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 9.64,
+          "p95_ms": 24.1,
+          "p99_ms": 51.24,
+          "max_ms": 151.4,
+          "mean_ms": 11.95
+        },
+        "achieved_rps": 99.9,
+        "incident": "ef21de3fb3",
+        "reason": "process_exited",
+        "source": "process",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "already_dead"
+        ],
+        "detect_ms": 17.3,
+        "recover_ms": 1948.2,
+        "first_reaction_ms": 8.6,
+        "symptom_to_detect_ms": 8.8,
+        "detect_to_recover_ms": 1930.9,
+        "fault_window": {
+          "n": 197,
+          "ok": 197,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 197
+          },
+          "p50_ms": 9.94,
+          "p95_ms": 32.95,
+          "p99_ms": 47.79,
+          "max_ms": 49.73,
+          "mean_ms": 11.98,
+          "window_s": 1.948
+        },
+        "pre_fault": {
+          "n": 501,
+          "ok": 501,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 501
+          },
+          "p50_ms": 9.77,
+          "p95_ms": 19.62,
+          "p99_ms": 49.07,
+          "max_ms": 56.76,
+          "mean_ms": 11.54
+        },
+        "post_recovery": {
+          "n": 1804,
+          "ok": 1804,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1804
+          },
+          "p50_ms": 9.54,
+          "p95_ms": 24.59,
+          "p99_ms": 52.09,
+          "max_ms": 151.4,
+          "mean_ms": 12.06
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "crash_sigkill",
+        "worker": "w2",
+        "t_fault": 1793072049.346013,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 10.77,
+          "p95_ms": 48.99,
+          "p99_ms": 301.5,
+          "max_ms": 545.87,
+          "mean_ms": 20.55
+        },
+        "achieved_rps": 99.9,
+        "incident": "1c1cb44efb",
+        "reason": "process_exited",
+        "source": "process",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "already_dead"
+        ],
+        "detect_ms": 20.3,
+        "recover_ms": 1456.3,
+        "first_reaction_ms": 10.0,
+        "symptom_to_detect_ms": 10.1,
+        "detect_to_recover_ms": 1436.0,
+        "fault_window": {
+          "n": 146,
+          "ok": 146,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 146
+          },
+          "p50_ms": 9.72,
+          "p95_ms": 40.23,
+          "p99_ms": 95.07,
+          "max_ms": 99.47,
+          "mean_ms": 14.23,
+          "window_s": 1.456
+        },
+        "pre_fault": {
+          "n": 501,
+          "ok": 501,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 501
+          },
+          "p50_ms": 9.53,
+          "p95_ms": 20.03,
+          "p99_ms": 50.62,
+          "max_ms": 52.03,
+          "mean_ms": 11.5
+        },
+        "post_recovery": {
+          "n": 1853,
+          "ok": 1853,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1853
+          },
+          "p50_ms": 11.76,
+          "p95_ms": 56.26,
+          "p99_ms": 384.14,
+          "max_ms": 545.87,
+          "mean_ms": 23.5
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "crash_sigkill",
+        "worker": "w2",
+        "t_fault": 1793072075.4017634,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 13.2,
+          "p95_ms": 26.12,
+          "p99_ms": 58.64,
+          "max_ms": 178.13,
+          "mean_ms": 15.54
+        },
+        "achieved_rps": 99.9,
+        "incident": "ecbd253729",
+        "reason": "process_exited",
+        "source": "process",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "already_dead"
+        ],
+        "detect_ms": 20.1,
+        "recover_ms": 1789.9,
+        "first_reaction_ms": 13.2,
+        "symptom_to_detect_ms": 6.7,
+        "detect_to_recover_ms": 1769.8,
+        "fault_window": {
+          "n": 182,
+          "ok": 182,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 182
+          },
+          "p50_ms": 14.84,
+          "p95_ms": 94.34,
+          "p99_ms": 153.73,
+          "max_ms": 178.13,
+          "mean_ms": 23.61,
+          "window_s": 1.79
+        },
+        "pre_fault": {
+          "n": 498,
+          "ok": 498,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 498
+          },
+          "p50_ms": 13.59,
+          "p95_ms": 29.77,
+          "p99_ms": 58.49,
+          "max_ms": 64.14,
+          "mean_ms": 15.64
+        },
+        "post_recovery": {
+          "n": 1820,
+          "ok": 1820,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1820
+          },
+          "p50_ms": 12.92,
+          "p95_ms": 21.39,
+          "p99_ms": 55.15,
+          "max_ms": 90.19,
+          "mean_ms": 14.71
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      }
+    ],
+    "crash_internal": [
+      {
+        "scenario": "crash_internal",
+        "worker": "w3",
+        "t_fault": 1793072101.4596472,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 12.98,
+          "p95_ms": 23.24,
+          "p99_ms": 57.47,
+          "max_ms": 1554.5,
+          "mean_ms": 15.49
+        },
+        "achieved_rps": 100.0,
+        "incident": "515ff29b62",
+        "reason": "process_exited",
+        "source": "process",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "already_dead"
+        ],
+        "detect_ms": 61.8,
+        "recover_ms": 1922.5,
+        "first_reaction_ms": 61.4,
+        "symptom_to_detect_ms": 0.0,
+        "detect_to_recover_ms": 1860.7,
+        "fault_window": {
+          "n": 195,
+          "ok": 195,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 195
+          },
+          "p50_ms": 13.95,
+          "p95_ms": 31.12,
+          "p99_ms": 62.53,
+          "max_ms": 1554.5,
+          "mean_ms": 23.59,
+          "window_s": 1.922
+        },
+        "pre_fault": {
+          "n": 500,
+          "ok": 500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 500
+          },
+          "p50_ms": 13.05,
+          "p95_ms": 18.11,
+          "p99_ms": 54.94,
+          "max_ms": 58.86,
+          "mean_ms": 14.35
+        },
+        "post_recovery": {
+          "n": 1806,
+          "ok": 1806,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1806
+          },
+          "p50_ms": 12.85,
+          "p95_ms": 23.33,
+          "p99_ms": 58.03,
+          "max_ms": 154.2,
+          "mean_ms": 14.94
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "crash_internal",
+        "worker": "w3",
+        "t_fault": 1793072127.4981568,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 12.78,
+          "p95_ms": 23.22,
+          "p99_ms": 53.08,
+          "max_ms": 88.48,
+          "mean_ms": 14.54
+        },
+        "achieved_rps": 99.9,
+        "incident": "311cb2c4c5",
+        "reason": "process_exited",
+        "source": "process",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "already_dead"
+        ],
+        "detect_ms": 57.3,
+        "recover_ms": 1853.3,
+        "first_reaction_ms": 49.8,
+        "symptom_to_detect_ms": 7.0,
+        "detect_to_recover_ms": 1796.0,
+        "fault_window": {
+          "n": 188,
+          "ok": 188,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 188
+          },
+          "p50_ms": 14.69,
+          "p95_ms": 29.37,
+          "p99_ms": 77.8,
+          "max_ms": 77.84,
+          "mean_ms": 17.3,
+          "window_s": 1.853
+        },
+        "pre_fault": {
+          "n": 501,
+          "ok": 501,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 501
+          },
+          "p50_ms": 12.83,
+          "p95_ms": 17.0,
+          "p99_ms": 51.73,
+          "max_ms": 55.84,
+          "mean_ms": 14.03
+        },
+        "post_recovery": {
+          "n": 1812,
+          "ok": 1812,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1812
+          },
+          "p50_ms": 12.63,
+          "p95_ms": 23.25,
+          "p99_ms": 52.53,
+          "max_ms": 88.48,
+          "mean_ms": 14.4
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "crash_internal",
+        "worker": "w3",
+        "t_fault": 1793072153.5341518,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 12.62,
+          "p95_ms": 20.58,
+          "p99_ms": 52.52,
+          "max_ms": 1573.98,
+          "mean_ms": 14.84
+        },
+        "achieved_rps": 100.0,
+        "incident": "2891eef17b",
+        "reason": "process_exited",
+        "source": "process",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "already_dead"
+        ],
+        "detect_ms": 54.9,
+        "recover_ms": 1835.1,
+        "first_reaction_ms": 54.8,
+        "symptom_to_detect_ms": 1.0,
+        "detect_to_recover_ms": 1780.2,
+        "fault_window": {
+          "n": 184,
+          "ok": 184,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 184
+          },
+          "p50_ms": 14.93,
+          "p95_ms": 25.9,
+          "p99_ms": 73.21,
+          "max_ms": 1573.98,
+          "mean_ms": 25.33,
+          "window_s": 1.835
+        },
+        "pre_fault": {
+          "n": 501,
+          "ok": 501,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 501
+          },
+          "p50_ms": 12.58,
+          "p95_ms": 17.85,
+          "p99_ms": 50.56,
+          "max_ms": 53.63,
+          "mean_ms": 13.74
+        },
+        "post_recovery": {
+          "n": 1816,
+          "ok": 1816,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1816
+          },
+          "p50_ms": 12.45,
+          "p95_ms": 21.83,
+          "p99_ms": 52.66,
+          "max_ms": 57.93,
+          "mean_ms": 14.07
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "crash_internal",
+        "worker": "w3",
+        "t_fault": 1793072179.55963,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 2,
+          "retried_ok": 2,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 13.32,
+          "p95_ms": 31.37,
+          "p99_ms": 72.75,
+          "max_ms": 174.62,
+          "mean_ms": 15.91
+        },
+        "achieved_rps": 99.9,
+        "incident": "0b8b242ee6",
+        "reason": "process_exited",
+        "source": "process",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "already_dead"
+        ],
+        "detect_ms": 58.6,
+        "recover_ms": 1927.9,
+        "first_reaction_ms": 51.4,
+        "symptom_to_detect_ms": 7.5,
+        "detect_to_recover_ms": 1869.3,
+        "fault_window": {
+          "n": 196,
+          "ok": 196,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 2,
+          "retried_ok": 2,
+          "by_status": {
+            "200": 196
+          },
+          "p50_ms": 15.09,
+          "p95_ms": 23.35,
+          "p99_ms": 54.46,
+          "max_ms": 58.64,
+          "mean_ms": 16.38,
+          "window_s": 1.928
+        },
+        "pre_fault": {
+          "n": 498,
+          "ok": 498,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 498
+          },
+          "p50_ms": 12.82,
+          "p95_ms": 22.51,
+          "p99_ms": 53.74,
+          "max_ms": 76.35,
+          "mean_ms": 14.52
+        },
+        "post_recovery": {
+          "n": 1807,
+          "ok": 1807,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1807
+          },
+          "p50_ms": 13.31,
+          "p95_ms": 34.08,
+          "p99_ms": 79.51,
+          "max_ms": 174.62,
+          "mean_ms": 16.24
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "crash_internal",
+        "worker": "w3",
+        "t_fault": 1793072205.5976872,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 13.45,
+          "p95_ms": 22.76,
+          "p99_ms": 71.97,
+          "max_ms": 137.41,
+          "mean_ms": 15.69
+        },
+        "achieved_rps": 99.9,
+        "incident": "2d5f2fdad8",
+        "reason": "process_exited",
+        "source": "process",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "already_dead"
+        ],
+        "detect_ms": 64.9,
+        "recover_ms": 2326.4,
+        "first_reaction_ms": 57.3,
+        "symptom_to_detect_ms": 7.7,
+        "detect_to_recover_ms": 2261.5,
+        "fault_window": {
+          "n": 236,
+          "ok": 236,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 236
+          },
+          "p50_ms": 16.43,
+          "p95_ms": 26.9,
+          "p99_ms": 61.6,
+          "max_ms": 95.65,
+          "mean_ms": 18.14,
+          "window_s": 2.326
+        },
+        "pre_fault": {
+          "n": 497,
+          "ok": 497,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 497
+          },
+          "p50_ms": 13.76,
+          "p95_ms": 52.08,
+          "p99_ms": 132.55,
+          "max_ms": 137.41,
+          "mean_ms": 18.28
+        },
+        "post_recovery": {
+          "n": 1768,
+          "ok": 1768,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1768
+          },
+          "p50_ms": 13.1,
+          "p95_ms": 20.05,
+          "p99_ms": 56.19,
+          "max_ms": 83.71,
+          "mean_ms": 14.64
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      }
+    ],
+    "hang": [
+      {
+        "scenario": "hang",
+        "worker": "w1",
+        "t_fault": 1793072231.6475022,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 3,
+          "retried_ok": 3,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 13.57,
+          "p95_ms": 20.72,
+          "p99_ms": 53.79,
+          "max_ms": 4552.32,
+          "mean_ms": 20.1
+        },
+        "achieved_rps": 99.9,
+        "incident": "0e21926e52",
+        "reason": "timeout",
+        "source": "active",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "terminate"
+        ],
+        "detect_ms": 3278.1,
+        "recover_ms": 6020.3,
+        "first_reaction_ms": 1281.5,
+        "symptom_to_detect_ms": 1996.5,
+        "detect_to_recover_ms": 2742.2,
+        "fault_window": {
+          "n": 605,
+          "ok": 605,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 3,
+          "retried_ok": 3,
+          "by_status": {
+            "200": 605
+          },
+          "p50_ms": 14.9,
+          "p95_ms": 24.45,
+          "p99_ms": 55.36,
+          "max_ms": 4552.32,
+          "mean_ms": 37.21,
+          "window_s": 6.02
+        },
+        "pre_fault": {
+          "n": 501,
+          "ok": 501,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 501
+          },
+          "p50_ms": 12.46,
+          "p95_ms": 20.04,
+          "p99_ms": 51.16,
+          "max_ms": 54.55,
+          "mean_ms": 13.93
+        },
+        "post_recovery": {
+          "n": 1395,
+          "ok": 1395,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1395
+          },
+          "p50_ms": 13.44,
+          "p95_ms": 20.88,
+          "p99_ms": 54.05,
+          "max_ms": 64.33,
+          "mean_ms": 14.9
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "hang",
+        "worker": "w1",
+        "t_fault": 1793072257.7002113,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 4,
+          "retried_ok": 4,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 11.33,
+          "p95_ms": 20.15,
+          "p99_ms": 53.43,
+          "max_ms": 4669.86,
+          "mean_ms": 20.1
+        },
+        "achieved_rps": 99.9,
+        "incident": "bac6c296b8",
+        "reason": "timeout",
+        "source": "active",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "terminate"
+        ],
+        "detect_ms": 3226.0,
+        "recover_ms": 6115.5,
+        "first_reaction_ms": 1235.8,
+        "symptom_to_detect_ms": 1989.7,
+        "detect_to_recover_ms": 2889.5,
+        "fault_window": {
+          "n": 614,
+          "ok": 614,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 4,
+          "retried_ok": 4,
+          "by_status": {
+            "200": 614
+          },
+          "p50_ms": 12.43,
+          "p95_ms": 22.86,
+          "p99_ms": 54.43,
+          "max_ms": 4669.86,
+          "mean_ms": 42.38,
+          "window_s": 6.115
+        },
+        "pre_fault": {
+          "n": 500,
+          "ok": 500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 500
+          },
+          "p50_ms": 13.05,
+          "p95_ms": 21.63,
+          "p99_ms": 55.59,
+          "max_ms": 4669.86,
+          "mean_ms": 23.95
+        },
+        "post_recovery": {
+          "n": 1388,
+          "ok": 1388,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1388
+          },
+          "p50_ms": 10.57,
+          "p95_ms": 19.55,
+          "p99_ms": 52.22,
+          "max_ms": 59.83,
+          "mean_ms": 12.21
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "hang",
+        "worker": "w1",
+        "t_fault": 1793072283.71985,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 3,
+          "retried_ok": 3,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 13.35,
+          "p95_ms": 22.5,
+          "p99_ms": 54.1,
+          "max_ms": 4307.76,
+          "mean_ms": 20.06
+        },
+        "achieved_rps": 99.9,
+        "incident": "887df313e1",
+        "reason": "timeout",
+        "source": "active",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "terminate"
+        ],
+        "detect_ms": 3206.8,
+        "recover_ms": 5751.0,
+        "first_reaction_ms": 1204.1,
+        "symptom_to_detect_ms": 2002.2,
+        "detect_to_recover_ms": 2544.2,
+        "fault_window": {
+          "n": 574,
+          "ok": 574,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 3,
+          "retried_ok": 3,
+          "by_status": {
+            "200": 574
+          },
+          "p50_ms": 15.87,
+          "p95_ms": 23.15,
+          "p99_ms": 56.0,
+          "max_ms": 4307.76,
+          "mean_ms": 38.81,
+          "window_s": 5.751
+        },
+        "pre_fault": {
+          "n": 499,
+          "ok": 499,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 499
+          },
+          "p50_ms": 13.47,
+          "p95_ms": 22.84,
+          "p99_ms": 74.83,
+          "max_ms": 80.65,
+          "mean_ms": 14.99
+        },
+        "post_recovery": {
+          "n": 1427,
+          "ok": 1427,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1427
+          },
+          "p50_ms": 12.6,
+          "p95_ms": 22.08,
+          "p99_ms": 53.65,
+          "max_ms": 62.67,
+          "mean_ms": 14.3
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "hang",
+        "worker": "w1",
+        "t_fault": 1793072309.767797,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 3,
+          "retried_ok": 3,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 13.25,
+          "p95_ms": 22.68,
+          "p99_ms": 54.94,
+          "max_ms": 4728.4,
+          "mean_ms": 20.5
+        },
+        "achieved_rps": 99.9,
+        "incident": "4c14d94fc8",
+        "reason": "timeout",
+        "source": "active",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "terminate"
+        ],
+        "detect_ms": 3238.3,
+        "recover_ms": 6172.9,
+        "first_reaction_ms": 1238.2,
+        "symptom_to_detect_ms": 2000.0,
+        "detect_to_recover_ms": 2934.6,
+        "fault_window": {
+          "n": 621,
+          "ok": 621,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 3,
+          "retried_ok": 3,
+          "by_status": {
+            "200": 621
+          },
+          "p50_ms": 16.13,
+          "p95_ms": 20.52,
+          "p99_ms": 52.98,
+          "max_ms": 4728.4,
+          "mean_ms": 38.7,
+          "window_s": 6.173
+        },
+        "pre_fault": {
+          "n": 498,
+          "ok": 498,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 498
+          },
+          "p50_ms": 12.55,
+          "p95_ms": 20.94,
+          "p99_ms": 52.54,
+          "max_ms": 56.37,
+          "mean_ms": 14.3
+        },
+        "post_recovery": {
+          "n": 1382,
+          "ok": 1382,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1382
+          },
+          "p50_ms": 12.55,
+          "p95_ms": 23.82,
+          "p99_ms": 57.02,
+          "max_ms": 111.89,
+          "mean_ms": 14.56
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "hang",
+        "worker": "w1",
+        "t_fault": 1793072335.798697,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 2,
+          "retried_ok": 2,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 14.16,
+          "p95_ms": 23.28,
+          "p99_ms": 55.71,
+          "max_ms": 4655.28,
+          "mean_ms": 19.81
+        },
+        "achieved_rps": 100.0,
+        "incident": "be76b1efe3",
+        "reason": "timeout",
+        "source": "active",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "terminate"
+        ],
+        "detect_ms": 3207.5,
+        "recover_ms": 6693.2,
+        "first_reaction_ms": 1206.3,
+        "symptom_to_detect_ms": 2000.7,
+        "detect_to_recover_ms": 3485.8,
+        "fault_window": {
+          "n": 669,
+          "ok": 669,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 2,
+          "retried_ok": 2,
+          "by_status": {
+            "200": 669
+          },
+          "p50_ms": 18.27,
+          "p95_ms": 25.37,
+          "p99_ms": 59.67,
+          "max_ms": 4655.28,
+          "mean_ms": 33.02,
+          "window_s": 6.693
+        },
+        "pre_fault": {
+          "n": 500,
+          "ok": 500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 1,
+          "retried_ok": 1,
+          "by_status": {
+            "200": 500
+          },
+          "p50_ms": 13.22,
+          "p95_ms": 21.9,
+          "p99_ms": 53.86,
+          "max_ms": 4655.28,
+          "mean_ms": 23.73
+        },
+        "post_recovery": {
+          "n": 1332,
+          "ok": 1332,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1332
+          },
+          "p50_ms": 13.37,
+          "p95_ms": 23.41,
+          "p99_ms": 56.09,
+          "max_ms": 84.39,
+          "mean_ms": 15.18
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      }
+    ],
+    "slow": [
+      {
+        "scenario": "slow",
+        "worker": "w2",
+        "t_fault": 1793072361.8585947,
+        "load": {
+          "n": 4500,
+          "ok": 4500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 4500
+          },
+          "p50_ms": 16.76,
+          "p95_ms": 27.59,
+          "p99_ms": 70.02,
+          "max_ms": 836.69,
+          "mean_ms": 22.23
+        },
+        "achieved_rps": 99.9,
+        "incident": "aa10af237b",
+        "reason": "degraded_too_long",
+        "source": "latency",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 24238.5,
+        "recover_ms": 26692.2,
+        "first_reaction_ms": 8254.4,
+        "symptom_to_detect_ms": 17993.7,
+        "detect_to_recover_ms": 2453.7,
+        "fault_window": {
+          "n": 2671,
+          "ok": 2671,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 2671
+          },
+          "p50_ms": 18.28,
+          "p95_ms": 31.52,
+          "p99_ms": 131.36,
+          "max_ms": 836.69,
+          "mean_ms": 27.44,
+          "window_s": 26.692
+        },
+        "pre_fault": {
+          "n": 500,
+          "ok": 500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 500
+          },
+          "p50_ms": 12.83,
+          "p95_ms": 26.39,
+          "p99_ms": 51.03,
+          "max_ms": 55.22,
+          "mean_ms": 14.57
+        },
+        "post_recovery": {
+          "n": 1330,
+          "ok": 1330,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1330
+          },
+          "p50_ms": 13.04,
+          "p95_ms": 21.66,
+          "p99_ms": 56.03,
+          "max_ms": 85.59,
+          "mean_ms": 14.66
+        },
+        "failed_total": 0,
+        "failed_in_window": 0,
+        "extra_latency_ms": 800.0
+      },
+      {
+        "scenario": "slow",
+        "worker": "w2",
+        "t_fault": 1793072407.876387,
+        "load": {
+          "n": 4500,
+          "ok": 4500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 4500
+          },
+          "p50_ms": 15.7,
+          "p95_ms": 22.54,
+          "p99_ms": 57.35,
+          "max_ms": 844.81,
+          "mean_ms": 20.74
+        },
+        "achieved_rps": 100.0,
+        "incident": "a6452500f1",
+        "reason": "degraded_too_long",
+        "source": "latency",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 23222.0,
+        "recover_ms": 25659.8,
+        "first_reaction_ms": 7222.6,
+        "symptom_to_detect_ms": 18000.9,
+        "detect_to_recover_ms": 2437.8,
+        "fault_window": {
+          "n": 2566,
+          "ok": 2566,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 2566
+          },
+          "p50_ms": 17.12,
+          "p95_ms": 22.41,
+          "p99_ms": 63.36,
+          "max_ms": 844.81,
+          "mean_ms": 25.27,
+          "window_s": 25.66
+        },
+        "pre_fault": {
+          "n": 499,
+          "ok": 499,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 499
+          },
+          "p50_ms": 13.2,
+          "p95_ms": 25.54,
+          "p99_ms": 77.39,
+          "max_ms": 86.57,
+          "mean_ms": 15.3
+        },
+        "post_recovery": {
+          "n": 1435,
+          "ok": 1435,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1435
+          },
+          "p50_ms": 12.77,
+          "p95_ms": 22.14,
+          "p99_ms": 54.62,
+          "max_ms": 85.02,
+          "mean_ms": 14.54
+        },
+        "failed_total": 0,
+        "failed_in_window": 0,
+        "extra_latency_ms": 800.0
+      },
+      {
+        "scenario": "slow",
+        "worker": "w2",
+        "t_fault": 1793072453.9403834,
+        "load": {
+          "n": 4500,
+          "ok": 4500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 4500
+          },
+          "p50_ms": 15.72,
+          "p95_ms": 23.45,
+          "p99_ms": 56.28,
+          "max_ms": 846.96,
+          "mean_ms": 20.86
+        },
+        "achieved_rps": 99.9,
+        "incident": "0ec5985a2c",
+        "reason": "degraded_too_long",
+        "source": "latency",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 24238.0,
+        "recover_ms": 25956.1,
+        "first_reaction_ms": 8239.6,
+        "symptom_to_detect_ms": 17999.2,
+        "detect_to_recover_ms": 1718.1,
+        "fault_window": {
+          "n": 2598,
+          "ok": 2598,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 2598
+          },
+          "p50_ms": 17.35,
+          "p95_ms": 24.16,
+          "p99_ms": 75.4,
+          "max_ms": 846.96,
+          "mean_ms": 25.67,
+          "window_s": 25.956
+        },
+        "pre_fault": {
+          "n": 500,
+          "ok": 500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 500
+          },
+          "p50_ms": 12.92,
+          "p95_ms": 21.8,
+          "p99_ms": 53.4,
+          "max_ms": 56.88,
+          "mean_ms": 14.48
+        },
+        "post_recovery": {
+          "n": 1404,
+          "ok": 1404,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1404
+          },
+          "p50_ms": 12.67,
+          "p95_ms": 22.65,
+          "p99_ms": 53.66,
+          "max_ms": 59.45,
+          "mean_ms": 14.23
+        },
+        "failed_total": 0,
+        "failed_in_window": 0,
+        "extra_latency_ms": 800.0
+      },
+      {
+        "scenario": "slow",
+        "worker": "w2",
+        "t_fault": 1793072500.0264277,
+        "load": {
+          "n": 4500,
+          "ok": 4500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 4500
+          },
+          "p50_ms": 16.02,
+          "p95_ms": 24.41,
+          "p99_ms": 58.7,
+          "max_ms": 879.42,
+          "mean_ms": 20.9
+        },
+        "achieved_rps": 99.9,
+        "incident": "e15a8ba25b",
+        "reason": "degraded_too_long",
+        "source": "latency",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 23243.7,
+        "recover_ms": 24881.9,
+        "first_reaction_ms": 7294.6,
+        "symptom_to_detect_ms": 17998.9,
+        "detect_to_recover_ms": 1638.2,
+        "fault_window": {
+          "n": 2492,
+          "ok": 2492,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 2492
+          },
+          "p50_ms": 17.83,
+          "p95_ms": 25.67,
+          "p99_ms": 105.41,
+          "max_ms": 879.42,
+          "mean_ms": 26.52,
+          "window_s": 24.882
+        },
+        "pre_fault": {
+          "n": 501,
+          "ok": 501,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 501
+          },
+          "p50_ms": 13.41,
+          "p95_ms": 29.43,
+          "p99_ms": 54.71,
+          "max_ms": 68.26,
+          "mean_ms": 15.32
+        },
+        "post_recovery": {
+          "n": 1509,
+          "ok": 1509,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1509
+          },
+          "p50_ms": 12.54,
+          "p95_ms": 21.15,
+          "p99_ms": 52.44,
+          "max_ms": 58.45,
+          "mean_ms": 13.46
+        },
+        "failed_total": 0,
+        "failed_in_window": 0,
+        "extra_latency_ms": 800.0
+      },
+      {
+        "scenario": "slow",
+        "worker": "w2",
+        "t_fault": 1793072546.052501,
+        "load": {
+          "n": 4500,
+          "ok": 4500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 4500
+          },
+          "p50_ms": 16.71,
+          "p95_ms": 24.16,
+          "p99_ms": 56.1,
+          "max_ms": 847.23,
+          "mean_ms": 21.13
+        },
+        "achieved_rps": 100.0,
+        "incident": "764bbdfd6c",
+        "reason": "degraded_too_long",
+        "source": "latency",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 24217.4,
+        "recover_ms": 25858.4,
+        "first_reaction_ms": 8226.5,
+        "symptom_to_detect_ms": 18001.0,
+        "detect_to_recover_ms": 1641.0,
+        "fault_window": {
+          "n": 2590,
+          "ok": 2590,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 2590
+          },
+          "p50_ms": 18.09,
+          "p95_ms": 24.75,
+          "p99_ms": 70.93,
+          "max_ms": 847.23,
+          "mean_ms": 26.03,
+          "window_s": 25.858
+        },
+        "pre_fault": {
+          "n": 496,
+          "ok": 496,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 496
+          },
+          "p50_ms": 13.17,
+          "p95_ms": 19.91,
+          "p99_ms": 52.87,
+          "max_ms": 57.13,
+          "mean_ms": 14.61
+        },
+        "post_recovery": {
+          "n": 1415,
+          "ok": 1415,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1415
+          },
+          "p50_ms": 12.71,
+          "p95_ms": 22.13,
+          "p99_ms": 54.39,
+          "max_ms": 68.21,
+          "mean_ms": 14.46
+        },
+        "failed_total": 0,
+        "failed_in_window": 0,
+        "extra_latency_ms": 800.0
+      }
+    ],
+    "leak": [
+      {
+        "scenario": "leak",
+        "worker": "w3",
+        "t_fault": 1793072592.1254325,
+        "load": {
+          "n": 7500,
+          "ok": 7500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 7500
+          },
+          "p50_ms": 12.73,
+          "p95_ms": 22.89,
+          "p99_ms": 53.55,
+          "max_ms": 171.31,
+          "mean_ms": 14.79
+        },
+        "achieved_rps": 99.9,
+        "incident": "9f74f462e4",
+        "reason": "rss_leak_trend",
+        "source": "resource",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 9254.8,
+        "recover_ms": 11613.2,
+        "first_reaction_ms": 9254.6,
+        "symptom_to_detect_ms": 0.0,
+        "detect_to_recover_ms": 2358.4,
+        "fault_window": {
+          "n": 1164,
+          "ok": 1164,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1164
+          },
+          "p50_ms": 18.67,
+          "p95_ms": 31.17,
+          "p99_ms": 76.72,
+          "max_ms": 171.31,
+          "mean_ms": 21.01,
+          "window_s": 11.613
+        },
+        "pre_fault": {
+          "n": 500,
+          "ok": 500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 500
+          },
+          "p50_ms": 12.9,
+          "p95_ms": 18.71,
+          "p99_ms": 57.37,
+          "max_ms": 61.11,
+          "mean_ms": 14.41
+        },
+        "post_recovery": {
+          "n": 5836,
+          "ok": 5836,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 5836
+          },
+          "p50_ms": 12.29,
+          "p95_ms": 20.58,
+          "p99_ms": 51.62,
+          "max_ms": 76.21,
+          "mean_ms": 13.58
+        },
+        "failed_total": 0,
+        "failed_in_window": 0,
+        "mb_per_request": 0.25
+      },
+      {
+        "scenario": "leak",
+        "worker": "w3",
+        "t_fault": 1793072668.1839535,
+        "load": {
+          "n": 7500,
+          "ok": 7500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 7500
+          },
+          "p50_ms": 13.11,
+          "p95_ms": 22.25,
+          "p99_ms": 53.81,
+          "max_ms": 126.44,
+          "mean_ms": 15.17
+        },
+        "achieved_rps": 100.0,
+        "incident": "96e2b44b53",
+        "reason": "rss_leak_trend",
+        "source": "resource",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 10192.8,
+        "recover_ms": 11885.4,
+        "first_reaction_ms": 10193.0,
+        "symptom_to_detect_ms": 0.0,
+        "detect_to_recover_ms": 1692.6,
+        "fault_window": {
+          "n": 1192,
+          "ok": 1192,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1192
+          },
+          "p50_ms": 17.95,
+          "p95_ms": 24.94,
+          "p99_ms": 72.11,
+          "max_ms": 126.44,
+          "mean_ms": 19.79,
+          "window_s": 11.885
+        },
+        "pre_fault": {
+          "n": 498,
+          "ok": 498,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 498
+          },
+          "p50_ms": 12.88,
+          "p95_ms": 17.98,
+          "p99_ms": 49.83,
+          "max_ms": 52.96,
+          "mean_ms": 14.02
+        },
+        "post_recovery": {
+          "n": 5811,
+          "ok": 5811,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 5811
+          },
+          "p50_ms": 12.65,
+          "p95_ms": 21.56,
+          "p99_ms": 52.94,
+          "max_ms": 106.75,
+          "mean_ms": 14.33
+        },
+        "failed_total": 0,
+        "failed_in_window": 0,
+        "mb_per_request": 0.25
+      },
+      {
+        "scenario": "leak",
+        "worker": "w3",
+        "t_fault": 1793072744.2554069,
+        "load": {
+          "n": 7500,
+          "ok": 7500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 7500
+          },
+          "p50_ms": 13.48,
+          "p95_ms": 24.23,
+          "p99_ms": 58.21,
+          "max_ms": 146.9,
+          "mean_ms": 16.05
+        },
+        "achieved_rps": 99.9,
+        "incident": "f13047ed4d",
+        "reason": "rss_leak_trend",
+        "source": "resource",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 9210.2,
+        "recover_ms": 10937.6,
+        "first_reaction_ms": 9210.6,
+        "symptom_to_detect_ms": 0.0,
+        "detect_to_recover_ms": 1727.4,
+        "fault_window": {
+          "n": 1094,
+          "ok": 1094,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1094
+          },
+          "p50_ms": 18.88,
+          "p95_ms": 23.3,
+          "p99_ms": 62.3,
+          "max_ms": 121.85,
+          "mean_ms": 20.18,
+          "window_s": 10.938
+        },
+        "pre_fault": {
+          "n": 502,
+          "ok": 502,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 502
+          },
+          "p50_ms": 12.81,
+          "p95_ms": 20.21,
+          "p99_ms": 50.62,
+          "max_ms": 52.96,
+          "mean_ms": 14.05
+        },
+        "post_recovery": {
+          "n": 5905,
+          "ok": 5905,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 5905
+          },
+          "p50_ms": 13.14,
+          "p95_ms": 25.68,
+          "p99_ms": 58.33,
+          "max_ms": 146.9,
+          "mean_ms": 15.45
+        },
+        "failed_total": 0,
+        "failed_in_window": 0,
+        "mb_per_request": 0.25
+      },
+      {
+        "scenario": "leak",
+        "worker": "w3",
+        "t_fault": 1793072820.3630676,
+        "load": {
+          "n": 7500,
+          "ok": 7500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 7500
+          },
+          "p50_ms": 12.7,
+          "p95_ms": 24.61,
+          "p99_ms": 54.72,
+          "max_ms": 147.33,
+          "mean_ms": 15.17
+        },
+        "achieved_rps": 99.9,
+        "incident": "828aac843e",
+        "reason": "rss_leak_trend",
+        "source": "resource",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 10186.0,
+        "recover_ms": 12474.1,
+        "first_reaction_ms": 10185.9,
+        "symptom_to_detect_ms": 0.0,
+        "detect_to_recover_ms": 2288.1,
+        "fault_window": {
+          "n": 1250,
+          "ok": 1250,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1250
+          },
+          "p50_ms": 20.95,
+          "p95_ms": 29.16,
+          "p99_ms": 67.39,
+          "max_ms": 147.33,
+          "mean_ms": 22.72,
+          "window_s": 12.474
+        },
+        "pre_fault": {
+          "n": 500,
+          "ok": 500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 500
+          },
+          "p50_ms": 13.55,
+          "p95_ms": 50.76,
+          "p99_ms": 79.21,
+          "max_ms": 99.35,
+          "mean_ms": 16.69
+        },
+        "post_recovery": {
+          "n": 5751,
+          "ok": 5751,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 5751
+          },
+          "p50_ms": 11.99,
+          "p95_ms": 19.88,
+          "p99_ms": 51.93,
+          "max_ms": 59.87,
+          "mean_ms": 13.4
+        },
+        "failed_total": 0,
+        "failed_in_window": 0,
+        "mb_per_request": 0.25
+      },
+      {
+        "scenario": "leak",
+        "worker": "w3",
+        "t_fault": 1793072896.4364808,
+        "load": {
+          "n": 7500,
+          "ok": 7500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 7500
+          },
+          "p50_ms": 13.56,
+          "p95_ms": 23.96,
+          "p99_ms": 58.45,
+          "max_ms": 211.79,
+          "mean_ms": 16.29
+        },
+        "achieved_rps": 99.8,
+        "incident": "f87293a929",
+        "reason": "rss_leak_trend",
+        "source": "resource",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 10175.8,
+        "recover_ms": 12557.1,
+        "first_reaction_ms": 10175.5,
+        "symptom_to_detect_ms": 0.0,
+        "detect_to_recover_ms": 2381.3,
+        "fault_window": {
+          "n": 1258,
+          "ok": 1258,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1258
+          },
+          "p50_ms": 20.04,
+          "p95_ms": 34.12,
+          "p99_ms": 117.45,
+          "max_ms": 211.79,
+          "mean_ms": 23.04,
+          "window_s": 12.557
+        },
+        "pre_fault": {
+          "n": 498,
+          "ok": 498,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 498
+          },
+          "p50_ms": 12.6,
+          "p95_ms": 21.9,
+          "p99_ms": 53.04,
+          "max_ms": 54.83,
+          "mean_ms": 14.26
+        },
+        "post_recovery": {
+          "n": 5745,
+          "ok": 5745,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 5745
+          },
+          "p50_ms": 13.16,
+          "p95_ms": 21.44,
+          "p99_ms": 54.68,
+          "max_ms": 129.81,
+          "mean_ms": 14.98
+        },
+        "failed_total": 0,
+        "failed_in_window": 0,
+        "mb_per_request": 0.25
+      }
+    ],
+    "oom": [
+      {
+        "scenario": "oom",
+        "worker": "w1",
+        "t_fault": 1793072972.5948594,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 13.9,
+          "p95_ms": 32.44,
+          "p99_ms": 60.36,
+          "max_ms": 2242.72,
+          "mean_ms": 18.9
+        },
+        "achieved_rps": 99.9,
+        "incident": "671db4c2b9",
+        "reason": "rss_limit",
+        "source": "resource",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 2281.3,
+        "recover_ms": 4837.2,
+        "first_reaction_ms": 2007.1,
+        "symptom_to_detect_ms": 274.5,
+        "detect_to_recover_ms": 2556.0,
+        "fault_window": {
+          "n": 483,
+          "ok": 483,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 483
+          },
+          "p50_ms": 20.86,
+          "p95_ms": 45.23,
+          "p99_ms": 90.9,
+          "max_ms": 2242.72,
+          "mean_ms": 33.75,
+          "window_s": 4.837
+        },
+        "pre_fault": {
+          "n": 499,
+          "ok": 499,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 499
+          },
+          "p50_ms": 13.77,
+          "p95_ms": 46.1,
+          "p99_ms": 70.24,
+          "max_ms": 79.79,
+          "mean_ms": 16.1
+        },
+        "post_recovery": {
+          "n": 1518,
+          "ok": 1518,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1518
+          },
+          "p50_ms": 13.45,
+          "p95_ms": 25.32,
+          "p99_ms": 55.96,
+          "max_ms": 67.55,
+          "mean_ms": 15.09
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "oom",
+        "worker": "w1",
+        "t_fault": 1793072998.6732578,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 12.73,
+          "p95_ms": 24.91,
+          "p99_ms": 56.08,
+          "max_ms": 876.78,
+          "mean_ms": 16.12
+        },
+        "achieved_rps": 99.8,
+        "incident": "24fa8e2d28",
+        "reason": "rss_limit",
+        "source": "resource",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 976.0,
+        "recover_ms": 3479.7,
+        "first_reaction_ms": 975.7,
+        "symptom_to_detect_ms": 0.0,
+        "detect_to_recover_ms": 2503.7,
+        "fault_window": {
+          "n": 349,
+          "ok": 349,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 349
+          },
+          "p50_ms": 19.97,
+          "p95_ms": 24.91,
+          "p99_ms": 50.74,
+          "max_ms": 822.08,
+          "mean_ms": 21.81,
+          "window_s": 3.48
+        },
+        "pre_fault": {
+          "n": 501,
+          "ok": 501,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 501
+          },
+          "p50_ms": 12.85,
+          "p95_ms": 45.63,
+          "p99_ms": 77.73,
+          "max_ms": 876.78,
+          "mean_ms": 21.73
+        },
+        "post_recovery": {
+          "n": 1651,
+          "ok": 1651,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1651
+          },
+          "p50_ms": 12.25,
+          "p95_ms": 24.04,
+          "p99_ms": 55.32,
+          "max_ms": 89.35,
+          "mean_ms": 13.7
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "oom",
+        "worker": "w1",
+        "t_fault": 1793073024.7308075,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 13.18,
+          "p95_ms": 23.18,
+          "p99_ms": 54.97,
+          "max_ms": 787.1,
+          "mean_ms": 15.81
+        },
+        "achieved_rps": 100.0,
+        "incident": "4208d6a354",
+        "reason": "rss_limit",
+        "source": "resource",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 922.5,
+        "recover_ms": 3197.0,
+        "first_reaction_ms": 922.2,
+        "symptom_to_detect_ms": 0.0,
+        "detect_to_recover_ms": 2274.5,
+        "fault_window": {
+          "n": 323,
+          "ok": 323,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 323
+          },
+          "p50_ms": 19.81,
+          "p95_ms": 25.22,
+          "p99_ms": 59.69,
+          "max_ms": 787.1,
+          "mean_ms": 24.97,
+          "window_s": 3.197
+        },
+        "pre_fault": {
+          "n": 500,
+          "ok": 500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 500
+          },
+          "p50_ms": 12.83,
+          "p95_ms": 17.71,
+          "p99_ms": 51.67,
+          "max_ms": 54.8,
+          "mean_ms": 13.9
+        },
+        "post_recovery": {
+          "n": 1678,
+          "ok": 1678,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1678
+          },
+          "p50_ms": 12.95,
+          "p95_ms": 22.53,
+          "p99_ms": 55.34,
+          "max_ms": 62.1,
+          "mean_ms": 14.62
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "oom",
+        "worker": "w1",
+        "t_fault": 1793073050.724133,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 13.03,
+          "p95_ms": 25.98,
+          "p99_ms": 80.64,
+          "max_ms": 638.7,
+          "mean_ms": 16.98
+        },
+        "achieved_rps": 99.9,
+        "incident": "f2ef8b5ff3",
+        "reason": "rss_limit",
+        "source": "resource",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 959.4,
+        "recover_ms": 2949.2,
+        "first_reaction_ms": 958.9,
+        "symptom_to_detect_ms": 0.0,
+        "detect_to_recover_ms": 1989.9,
+        "fault_window": {
+          "n": 295,
+          "ok": 295,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 295
+          },
+          "p50_ms": 20.85,
+          "p95_ms": 26.8,
+          "p99_ms": 462.32,
+          "max_ms": 638.7,
+          "mean_ms": 26.31,
+          "window_s": 2.949
+        },
+        "pre_fault": {
+          "n": 501,
+          "ok": 501,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 501
+          },
+          "p50_ms": 13.42,
+          "p95_ms": 52.21,
+          "p99_ms": 227.64,
+          "max_ms": 261.32,
+          "mean_ms": 21.5
+        },
+        "post_recovery": {
+          "n": 1705,
+          "ok": 1705,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1705
+          },
+          "p50_ms": 12.58,
+          "p95_ms": 20.42,
+          "p99_ms": 54.0,
+          "max_ms": 80.64,
+          "mean_ms": 14.03
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      },
+      {
+        "scenario": "oom",
+        "worker": "w1",
+        "t_fault": 1793073076.7662013,
+        "load": {
+          "n": 2500,
+          "ok": 2500,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 2500
+          },
+          "p50_ms": 12.0,
+          "p95_ms": 22.85,
+          "p99_ms": 49.73,
+          "max_ms": 662.37,
+          "mean_ms": 14.6
+        },
+        "achieved_rps": 100.0,
+        "incident": "8aa84a055c",
+        "reason": "rss_limit",
+        "source": "resource",
+        "status": "recovered",
+        "attempts": 1,
+        "escalation": [
+          "drain"
+        ],
+        "detect_ms": 908.2,
+        "recover_ms": 2899.4,
+        "first_reaction_ms": 906.8,
+        "symptom_to_detect_ms": 1.0,
+        "detect_to_recover_ms": 1991.2,
+        "fault_window": {
+          "n": 292,
+          "ok": 292,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 292
+          },
+          "p50_ms": 19.93,
+          "p95_ms": 25.0,
+          "p99_ms": 228.86,
+          "max_ms": 662.37,
+          "mean_ms": 24.41,
+          "window_s": 2.899
+        },
+        "pre_fault": {
+          "n": 501,
+          "ok": 501,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 501
+          },
+          "p50_ms": 12.51,
+          "p95_ms": 20.64,
+          "p99_ms": 51.83,
+          "max_ms": 662.37,
+          "mean_ms": 15.4
+        },
+        "post_recovery": {
+          "n": 1708,
+          "ok": 1708,
+          "failed": 0,
+          "success_pct": 100.0,
+          "retried": 0,
+          "retried_ok": 0,
+          "by_status": {
+            "200": 1708
+          },
+          "p50_ms": 11.66,
+          "p95_ms": 17.85,
+          "p99_ms": 48.26,
+          "max_ms": 73.65,
+          "mean_ms": 13.07
+        },
+        "failed_total": 0,
+        "failed_in_window": 0
+      }
+    ]
+  },
+  "crash_loop": {
+    "scenario": "crash_loop",
+    "worker": "w3",
+    "rounds": [
+      {
+        "round": 1,
+        "status": "recovered",
+        "backoff_s": 0.459,
+        "detect_ms": 17.8,
+        "recover_ms": 1938.5,
+        "budget_used": 1
+      },
+      {
+        "round": 2,
+        "status": "recovered",
+        "backoff_s": 0.806,
+        "detect_ms": 16.3,
+        "recover_ms": 2281.7,
+        "budget_used": 2
+      },
+      {
+        "round": 3,
+        "status": "recovered",
+        "backoff_s": 0.732,
+        "detect_ms": 17.1,
+        "recover_ms": 2199.5,
+        "budget_used": 3
+      },
+      {
+        "round": 4,
+        "status": "recovered",
+        "backoff_s": 0.117,
+        "detect_ms": 17.0,
+        "recover_ms": 1584.5,
+        "budget_used": 4
+      },
+      {
+        "round": 5,
+        "status": "recovered",
+        "backoff_s": 3.539,
+        "detect_ms": 16.2,
+        "recover_ms": 4994.3,
+        "budget_used": 5
+      },
+      {
+        "round": 6,
+        "status": "quarantined",
+        "backoff_s": null,
+        "detect_ms": 15.3,
+        "recover_ms": null,
+        "budget_used": 5
+      }
+    ],
+    "final_state": "quarantined",
+    "max_restarts": 5,
+    "restart_window_s": 300.0
+  },
+  "baseline": {
+    "scenario": "baseline",
+    "duration_s": 60.0,
+    "rps": 100.0,
+    "achieved_rps": 99.9,
+    "load": {
+      "n": 6000,
+      "ok": 6000,
+      "failed": 0,
+      "success_pct": 100.0,
+      "retried": 0,
+      "retried_ok": 0,
+      "by_status": {
+        "200": 6000
+      },
+      "p50_ms": 12.3,
+      "p95_ms": 16.9,
+      "p99_ms": 48.91,
+      "max_ms": 76.95,
+      "mean_ms": 13.56
+    },
+    "incidents_opened": 0,
+    "suspect_transitions": 0,
+    "degraded_transitions": 0,
+    "probe_ticks": 1212
+  },
+  "load_sweep": {
+    "scenario": "load_sweep",
+    "duration_s": 15.0,
+    "levels": [
+      {
+        "n": 750,
+        "ok": 750,
+        "failed": 0,
+        "success_pct": 100.0,
+        "retried": 0,
+        "retried_ok": 0,
+        "by_status": {
+          "200": 750
+        },
+        "p50_ms": 11.16,
+        "p95_ms": 14.71,
+        "p99_ms": 48.6,
+        "max_ms": 57.72,
+        "mean_ms": 12.34,
+        "target_rps": 50.0,
+        "achieved_rps": 50.1
+      },
+      {
+        "n": 1500,
+        "ok": 1500,
+        "failed": 0,
+        "success_pct": 100.0,
+        "retried": 0,
+        "retried_ok": 0,
+        "by_status": {
+          "200": 1500
+        },
+        "p50_ms": 11.55,
+        "p95_ms": 20.2,
+        "p99_ms": 53.12,
+        "max_ms": 90.33,
+        "mean_ms": 13.54,
+        "target_rps": 100.0,
+        "achieved_rps": 100.0
+      },
+      {
+        "n": 3000,
+        "ok": 3000,
+        "failed": 0,
+        "success_pct": 100.0,
+        "retried": 0,
+        "retried_ok": 0,
+        "by_status": {
+          "200": 3000
+        },
+        "p50_ms": 12.55,
+        "p95_ms": 28.55,
+        "p99_ms": 56.55,
+        "max_ms": 91.56,
+        "mean_ms": 14.76,
+        "target_rps": 200.0,
+        "achieved_rps": 199.5
+      },
+      {
+        "n": 6000,
+        "ok": 6000,
+        "failed": 0,
+        "success_pct": 100.0,
+        "retried": 0,
+        "retried_ok": 0,
+        "by_status": {
+          "200": 6000
+        },
+        "p50_ms": 15.77,
+        "p95_ms": 35.72,
+        "p99_ms": 65.77,
+        "max_ms": 84.69,
+        "mean_ms": 17.72,
+        "target_rps": 400.0,
+        "achieved_rps": 398.4
+      },
+      {
+        "n": 12000,
+        "ok": 6202,
+        "failed": 5798,
+        "success_pct": 51.683,
+        "retried": 305,
+        "retried_ok": 238,
+        "by_status": {
+          "200": 6202,
+          "conn_error": 5544,
+          "timeout": 187,
+          "503": 67
+        },
+        "p50_ms": 530.81,
+        "p95_ms": 2468.31,
+        "p99_ms": 4635.21,
+        "max_ms": 6003.06,
+        "mean_ms": 744.23,
+        "target_rps": 800.0,
+        "achieved_rps": 699.1
+      }
+    ]
+  },
+  "wall_s": 1295.6032304763794
+}
