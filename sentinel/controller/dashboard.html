@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPU Sentinel</title>
+<style>
+  :root {
+    --bg: #0b0e14; --panel: #121722; --line: #1f2735; --text: #e6e9ef; --muted: #8b94a7;
+    --ok: #2ecc71; --warn: #f1c40f; --bad: #e74c3c; --info: #3498db; --violet: #9b59b6; --grey: #7f8c8d;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+  header { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--panel); position: sticky; top: 0; z-index: 2; }
+  header h1 { font-size: 16px; margin: 0; letter-spacing: .3px; }
+  header .meta { color: var(--muted); font-family: var(--mono); font-size: 12px; margin-left: auto; }
+  .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; font-family: var(--mono); background: #1c2433; }
+  .pill.ok { color: var(--ok); } .pill.bad { color: var(--bad); } .pill.warn { color: var(--warn); }
+  main { padding: 18px 20px; display: grid; gap: 18px; max-width: 1400px; margin: 0 auto; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .stat .k { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .6px; }
+  .stat .v { font-size: 22px; font-weight: 650; font-family: var(--mono); margin-top: 4px; }
+  .stat .s { color: var(--muted); font-size: 11px; font-family: var(--mono); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px; position: relative; }
+  .card.state-healthy { border-left: 4px solid var(--ok); }
+  .card.state-degraded { border-left: 4px solid var(--warn); }
+  .card.state-suspect { border-left: 4px solid var(--warn); }
+  .card.state-starting { border-left: 4px solid var(--info); }
+  .card.state-unhealthy, .card.state-recovering { border-left: 4px solid var(--bad); }
+  .card.state-quarantined { border-left: 4px solid var(--violet); }
+  .card.state-stopped { border-left: 4px solid var(--grey); }
+  .card h3 { margin: 0 0 8px; font-size: 15px; display: flex; align-items: center; gap: 10px; font-family: var(--mono); }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: .5px; font-weight: 700; color: #0b0e14; }
+  .badge.healthy { background: var(--ok); } .badge.degraded, .badge.suspect { background: var(--warn); }
+  .badge.starting { background: var(--info); } .badge.unhealthy, .badge.recovering { background: var(--bad); color: #fff; }
+  .badge.quarantined { background: var(--violet); color: #fff; } .badge.stopped { background: var(--grey); }
+  .kv { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; font-family: var(--mono); font-size: 12px; }
+  .kv div span { color: var(--muted); }
+  .chaos { margin-top: 8px; font-family: var(--mono); font-size: 11px; color: var(--warn); }
+  .actions { margin-top: 10px; display: flex; gap: 6px; }
+  button { background: #1c2433; color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; font-size: 12px; cursor: pointer; }
+  button:hover { border-color: var(--muted); }
+  section h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin: 0 0 10px; }
+  table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  tr:last-child td { border-bottom: 0; }
+  .st-open { color: var(--bad); } .st-recovered { color: var(--ok); } .st-quarantined { color: var(--violet); }
+  svg.spark { width: 100%; height: 110px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+  .legend { color: var(--muted); font-size: 11px; font-family: var(--mono); margin-top: 4px; display: flex; gap: 16px; }
+  .legend i { display: inline-block; width: 10px; height: 2px; vertical-align: middle; margin-right: 5px; }
+  pre.events { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; max-height: 260px; overflow: auto; font-size: 11.5px; line-height: 1.5; margin: 0; color: #c7cdd8; font-family: var(--mono); }
+  .ev-bad { color: var(--bad); } .ev-ok { color: var(--ok); } .ev-warn { color: var(--warn); }
+</style>
+</head>
+<body>
+<header>
+  <h1>GPU Sentinel</h1>
+  <span id="fleet" class="pill">—</span>
+  <span id="routable" class="pill">—</span>
+  <span id="incidents-open" class="pill">—</span>
+  <span class="meta" id="meta">connecting…</span>
+</header>
+<main>
+  <div class="stats" id="stats"></div>
+  <section>
+    <h2>Last 90 s · gateway success rate and p95 latency</h2>
+    <svg class="spark" id="spark" viewBox="0 0 900 110" preserveAspectRatio="none"></svg>
+    <div class="legend"><span><i style="background:var(--ok)"></i>success % (0–100)</span><span><i style="background:var(--info)"></i>fleet p95 ms (auto-scaled, max <b id="p95max">—</b>)</span><span><i style="background:var(--bad)"></i>incident opened</span></div>
+  </section>
+  <section><h2>Workers</h2><div class="grid" id="workers"></div></section>
+  <section><h2>Incidents</h2><div id="incidents"></div></section>
+  <section><h2>Audit events</h2><pre class="events" id="events"></pre></section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const fmt = (v, d = 1) => (v === null || v === undefined || Number.isNaN(v)) ? '—' : Number(v).toFixed(d);
+const hist = [];            // {t, succ, p95, incident}
+let lastGw = null, lastSeq = 0, incidentSeqs = new Set();
+const evLines = [];
+
+function stat(k, v, s) { return `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s || ''}</div></div>`; }
+
+function renderStats(st) {
+  const gw = st.gateway, f = st.fleet;
+  const totalPct = gw.requests_total ? (100 * gw.requests_ok / gw.requests_total) : 100;
+  const p95s = st.workers.map(w => w.latency && w.latency.p95).filter(x => x !== undefined);
+  const inflight = st.workers.reduce((a, w) => a + w.inflight, 0);
+  const restarts = st.workers.reduce((a, w) => a + w.restarts, 0);
+  const last = hist[hist.length - 1];
+  $('stats').innerHTML =
+    stat('requests ok / total', `${gw.requests_ok} / ${gw.requests_total}`, `${fmt(totalPct, 3)} % since start`) +
+    stat('success last second', last ? fmt(last.succ, 1) + ' %' : '—', last ? `${last.rps} req/s` : '') +
+    stat('fleet p95', p95s.length ? fmt(Math.max(...p95s), 1) + ' ms' : '—', 'max over workers, 15 s window') +
+    stat('in-flight', inflight, `${f.routable} routable of ${f.total}`) +
+    stat('restarts', restarts, `${f.quarantined} quarantined`) +
+    stat('controller', `tick ${st.tick}`, `up ${fmt(st.uptime_s, 0)} s`);
+  $('fleet').textContent = `${f.healthy}/${f.total} healthy`;
+  $('fleet').className = 'pill ' + (f.healthy === f.total ? 'ok' : f.healthy === 0 ? 'bad' : 'warn');
+  $('routable').textContent = `${f.routable} routable`;
+  $('routable').className = 'pill ' + (f.routable > 0 ? 'ok' : 'bad');
+  $('meta').textContent = `gateway :${gw.port} · api ${location.host} · v${st.version}`;
+}
+
+function card(w) {
+  const lat = w.latency || {};
+  const gpu = w.gpu ? `${fmt(w.gpu.proc_mem_mb, 0)} MB${w.gpu.util_pct !== undefined ? ' · ' + w.gpu.util_pct + '%' : ''}` : '—';
+  const chaos = Object.keys(w.chaos || {}).length ? `<div class="chaos">chaos: ${Object.entries(w.chaos).map(([k, v]) => `${k}=${v}`).join(' ')}</div>` : '';
+  const act = w.state === 'quarantined'
+    ? `<button onclick="act('${w.id}','unquarantine')">Release</button>`
+    : `<button onclick="act('${w.id}','restart')">Restart</button><button onclick="act('${w.id}','quarantine')">Quarantine</button>`;
+  return `<div class="card state-${w.state}">
+    <h3>${w.id} <span class="badge ${w.state}">${w.state}</span><span style="margin-left:auto;color:var(--muted);font-size:11px">${w.reason || ''}</span></h3>
+    <div class="kv">
+      <div><span>port / pid</span> ${w.port} / ${w.pid ?? '—'}</div><div><span>uptime</span> ${fmt(w.uptime_s, 0)} s</div>
+      <div><span>engine</span> ${w.engine || '—'}</div><div><span>rss</span> ${fmt(w.rss_mb, 0)} MB</div>
+      <div><span>gpu</span> ${gpu}</div><div><span>probe</span> ${fmt(w.probe_ms, 1)} ms</div>
+      <div><span>p50 / p95</span> ${fmt(lat.p50, 1)} / ${fmt(lat.p95, 1)} ms</div><div><span>in-flight</span> ${w.inflight}</div>
+      <div><span>ok / err / shed</span> ${w.requests_ok} / ${w.requests_err} / ${w.requests_shed}</div><div><span>restarts</span> ${w.restarts} (budget ${w.budget_used}/${w.budget_max})</div>
+      <div><span>consec. fails</span> ${w.consecutive_failures}</div><div><span>in state</span> ${fmt(w.time_in_state_s, 0)} s</div>
+    </div>${chaos}<div class="actions">${act}</div></div>`;
+}
+
+function renderIncidents(list) {
+  if (!list.length) { $('incidents').innerHTML = '<div style="color:var(--muted);font-family:var(--mono);font-size:12px">none yet</div>'; return; }
+  const rows = list.map(i => `<tr>
+    <td>${i.id}</td><td>${i.worker}</td><td>${i.reason}<span style="color:var(--muted)"> · ${i.source}</span></td>
+    <td>${new Date(i.opened_at * 1000).toLocaleTimeString()}</td>
+    <td class="st-${i.status}">${i.status}</td><td>${i.attempts}</td><td>${(i.escalation || []).join('→') || '—'}</td>
+    <td>${fmt(i.symptom_to_detect_ms, 0)}</td><td>${fmt(i.detect_to_recover_ms, 0)}</td></tr>`).join('');
+  $('incidents').innerHTML = `<table><thead><tr><th>id</th><th>worker</th><th>reason</th><th>opened</th><th>status</th><th>attempts</th><th>stop rung</th><th>symptom→detect ms</th><th>detect→healthy ms</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function drawSpark() {
+  const W = 900, H = 110, n = 90;
+  const pts = hist.slice(-n);
+  if (pts.length < 2) return;
+  const x = (i) => (i / (n - 1)) * W;
+  const p95max = Math.max(50, ...pts.map(p => p.p95 || 0));
+  $('p95max').textContent = fmt(p95max, 0);
+  const succ = pts.map((p, i) => `${x(i + n - pts.length).toFixed(1)},${(H - 6 - (p.succ / 100) * (H - 12)).toFixed(1)}`).join(' ');
+  const p95 = pts.map((p, i) => `${x(i + n - pts.length).toFixed(1)},${(H - 6 - ((p.p95 || 0) / p95max) * (H - 12)).toFixed(1)}`).join(' ');
+  const marks = pts.map((p, i) => p.incident ? `<line x1="${x(i + n - pts.length)}" y1="0" x2="${x(i + n - pts.length)}" y2="${H}" stroke="var(--bad)" stroke-width="1.5" stroke-dasharray="3 3"/>` : '').join('');
+  $('spark').innerHTML = `${marks}<polyline fill="none" stroke="var(--info)" stroke-width="1.5" points="${p95}"/><polyline fill="none" stroke="var(--ok)" stroke-width="2" points="${succ}"/>`;
+}
+
+async function act(w, a) {
+  await fetch(`/api/workers/${w}/${a}`, { method: 'POST' });
+}
+
+async function poll() {
+  try {
+    const [st, inc, ev] = await Promise.all([
+      fetch('/api/state').then(r => r.json()),
+      fetch('/api/incidents?limit=15').then(r => r.json()),
+      fetch(`/api/events?since=${lastSeq}&limit=200`).then(r => r.json()),
+    ]);
+    let incidentNow = false;
+    for (const e of ev.events) {
+      lastSeq = Math.max(lastSeq, e.seq);
+      if (e.event === 'incident_opened') incidentNow = true;
+      const cls = /opened|failed|quarantin|stopped/.test(e.event) ? 'ev-bad' : /closed|restarted|recovered/.test(e.event) ? 'ev-ok' : /backoff|suspect|degraded/.test(e.event + (e.new || '')) ? 'ev-warn' : '';
+      const extra = Object.entries(e).filter(([k]) => !['seq', 'ts', 'iso', 'event'].includes(k)).map(([k, v]) => `${k}=${typeof v === 'object' ? JSON.stringify(v) : v}`).join(' ');
+      evLines.push(`<span class="${cls}">${e.iso.slice(11, 23)} ${e.event.padEnd(24)}</span> ${extra}`);
+    }
+    while (evLines.length > 60) evLines.shift();
+    $('events').innerHTML = evLines.join('\n');
+    $('events').scrollTop = $('events').scrollHeight;
+
+    const gw = st.gateway;
+    if (lastGw && st.now > lastGw.now) {
+      const dt = gw.requests_total - lastGw.requests_total, dok = gw.requests_ok - lastGw.requests_ok;
+      const p95s = st.workers.filter(w => w.state === 'healthy' || w.state === 'degraded').map(w => w.latency && w.latency.p95).filter(x => x !== undefined);
+      const succ = dt > 0 ? Math.min(100, Math.max(0, 100 * dok / dt)) : 100;
+      hist.push({ t: st.now, succ, rps: Math.max(0, dt), p95: p95s.length ? Math.max(...p95s) : 0, incident: incidentNow });
+      while (hist.length > 90) hist.shift();
+    }
+    if (!lastGw || st.now > lastGw.now) lastGw = { ...gw, now: st.now };
+    renderStats(st);
+    $('workers').innerHTML = st.workers.map(card).join('');
+    renderIncidents(inc.incidents);
+    $('incidents-open').textContent = `${inc.incidents.filter(i => i.status === 'open').length} open incidents`;
+    $('incidents-open').className = 'pill ' + (inc.incidents.some(i => i.status === 'open') ? 'bad' : 'ok');
+    drawSpark();
+  } catch (e) {
+    $('meta').textContent = 'disconnected: ' + e;
+  }
+}
+poll(); setInterval(poll, 1000);
+</script>
+</body>
+</html>
