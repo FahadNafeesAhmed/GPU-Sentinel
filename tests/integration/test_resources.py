@@ -27,5 +27,6 @@ async def test_hard_rss_limit_is_immediate(make_harness):
     await h.chaos("w1", "oom", max_mb=256, step_mb=64)
     inc = await h.wait_incident("w1", timeout=5.0)
     assert inc["reason"] == "rss_limit"
-    assert inc["symptom_to_detect_ms"] == 0.0  # fatal verdicts do not wait for a streak
+    # fatal verdicts do not wait for a streak: the incident opens at the transition timestamp
+    assert inc["symptom_to_detect_ms"] == 0.0
     await h.wait_incident("w1", status="recovered", timeout=15.0)

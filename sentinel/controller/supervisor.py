@@ -305,7 +305,8 @@ class Supervisor:
         elif t.new == WorkerState.UNHEALTHY:
             if mw.incident is None or mw.incident.status != "open":
                 mw.incident = self.incidents.open(mw.id, t.reason, t.source, t.streak_started_at,
-                                                  detail=detail, previous_state=t.old.value)
+                                                  opened_at=t.at, detail=detail,
+                                                  previous_state=t.old.value)
                 self.m_incidents.labels(reason=t.reason).inc()
             else:
                 self.incidents.note(mw.incident, "recovery_attempt_failed", reason=t.reason,

@@ -82,9 +82,15 @@ class IncidentLog:
     # ------------------------------------------------------------------ incidents
 
     def open(
-        self, worker: str, reason: str, source: str, first_symptom_at: float | None, **detail: Any
+        self,
+        worker: str,
+        reason: str,
+        source: str,
+        first_symptom_at: float | None,
+        opened_at: float | None = None,
+        **detail: Any,
     ) -> Incident:
-        now = self.clock()
+        now = self.clock() if opened_at is None else opened_at
         inc = Incident(
             id=uuid.uuid4().hex[:10], worker=worker, opened_at=now, reason=reason, source=source,
             first_symptom_at=first_symptom_at,

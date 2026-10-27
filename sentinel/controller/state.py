@@ -113,8 +113,10 @@ class HealthTracker:
 
     # ------------------------------------------------------------------ helpers
 
-    def _enter(self, new: WorkerState, reason: str, source: str) -> Transition:
-        now = self.clock()
+    def _enter(
+        self, new: WorkerState, reason: str, source: str, now: float | None = None
+    ) -> Transition:
+        now = self.clock() if now is None else now
         t = Transition(self.worker_id, self.state, new, reason, source, now, self.streak_started_at)
         self.state = new
         self.state_since = now
@@ -160,7 +162,7 @@ class HealthTracker:
 
         if v.severity == Severity.FATAL:
             self.consecutive_successes = 0
-            return self._enter(WorkerState.UNHEALTHY, v.reason, v.source)
+            return self._enter(WorkerState.UNHEALTHY, v.reason, v.source, now)
 
         if v.severity == Severity.FAIL:
             self.consecutive_successes = 0
@@ -168,9 +170,9 @@ class HealthTracker:
                 return self._startup_timeout(now)
             self.consecutive_failures += 1
             if self.consecutive_failures >= self.probe.unhealthy_threshold:
-                return self._enter(WorkerState.UNHEALTHY, v.reason, v.source)
+                return self._enter(WorkerState.UNHEALTHY, v.reason, v.source, now)
             if self.state in (WorkerState.HEALTHY, WorkerState.DEGRADED):
-                return self._enter(WorkerState.SUSPECT, v.reason, v.source)
+                return self._enter(WorkerState.SUSPECT, v.reason, v.source, now)
             return self._startup_timeout(now)
 
         # DEGRADE: the worker answers, but slowly.

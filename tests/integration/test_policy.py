@@ -12,7 +12,7 @@ pytestmark = pytest.mark.integration
 
 async def test_no_false_positives_under_sustained_load(harness):
     statuses = await harness.load(5.0, concurrency=12, tokens=8)
-    assert len(statuses) > 200
+    assert len(statuses) > 100  # 2-vCPU CI runners manage ~180; a laptop does thousands
     assert all(s == 200 for s in statuses)
     assert await harness.incidents() == []
     st = await harness.state()
